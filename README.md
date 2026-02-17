@@ -5,16 +5,16 @@ Design and maintain a self-hosted virtualized infrastructure environment to supp
 
 ## Physical Host Hardware
 
-CPU: Ryzen 7 5700G (8-core / 16-thread)
-RAM: 48GB DDR4
-GPU: RX580 16GB
-Motherboard: X470 Gaming Pro
-PSU: Corsair TX650W
+- CPU: Ryzen 7 5700G (8-core / 16-thread)
+- RAM: 48GB DDR4
+- GPU: RX580 16GB
+- Motherboard: X470 Gaming Pro
+- PSU: Corsair TX650W
 
-Storage Layout:
-- NVMe 256GB — Proxmox host + primary VM storage
-- SSD 120GB — Secondary VM disk
-- 2x 2TB HDD — Bulk storage and backup targets
+- Storage Layout:
+  - NVMe 256GB — Proxmox host + primary VM storage
+  - SSD 120GB — Secondary VM disk
+  - 2x 2TB HDD — Bulk storage and backup targets
 
 ## Virtualization Platform
 
