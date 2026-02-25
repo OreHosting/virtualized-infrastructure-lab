@@ -1,0 +1,29 @@
+###################################
+# Firewall Rule Documentation
+###################################
+
+## Network Segments
+VLAN 10  -  MGMT   -  192.168.10.0/24  -  Infrastructure Management 
+VLAN 20  -  SERVER -  192.168.20.0/24  -  Virtualization and Nas
+VLAN 30  -  LAN    -  192.168.30.0/24  -  User Workstation Network
+
+## Default Policy
+WAN       ->  Internal  :  Deny
+Internal  ->  WAN       :  Allow
+Inter-VLAN              :  Deny
+
+## Inter-VLAN Rules
+LAN   ->  SERVER  :  Allow
+MGMT  ->  SERVER  :  Allow
+MGMT  ->  LAN     :  Allow
+
+## WAN Exposure Rules
+WAN -> Debian Host (192.168.133)
+	- Crafty         :  25500-25600
+	- Prox Chat Mod  :  40000-40000
+
+## Infrastructure Service Rules
+
+## Security Controls / Blocks
+
+## Notes / Future Improvements
