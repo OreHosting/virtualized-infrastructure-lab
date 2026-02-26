@@ -23,8 +23,19 @@ WAN -> Debian Host (192.168.20.133)
 	- Prox Chat Mod  :  40000-40000
 
 ## Infrastructure Service Rules
+Router        -  192.168.10.1  -  MGMT  -  TCP 80, 443
+Smart Switch  -  192.168.10.2  -  MGMT  -  TCP 80, 443
+Access Point  -  192.168.10.3  -  MGMT  -  TCP 80, 443
+
+ProxMox Web UI     -  192.168.20.99   -  SERVER, MGMT  -  TCP 8006
+CasaOC Web UI      -  192.168.20.193  -  SERVER, MGMT  -  TCP 50000
+Crafty Controller  -  192.168.20.193  -  SERVER, MGMT  -  TCP 8111
+TrueNAS Web UI     -  192.168.20.133  -  SERVER, MGMT  -  TCP 80, 443
+
+NAS SMB Share      -  192.168.20.133  -  LAN, SERVER, MGMT  -  TCP 445
 
 ## Security Controls / Blocks
 
 
 ## Notes / Future Improvements
+
