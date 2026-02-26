@@ -4,39 +4,54 @@
 
 ## Network Segments
 VLAN 10  -  MGMT   -  192.168.10.0/24  -  Infrastructure Management 
-VLAN 20  -  SERVER -  192.168.20.0/24  -  Virtualization and Nas
+VLAN 20  -  SERVER -  192.168.20.0/24  -  Virtualization and NAS Services
 VLAN 30  -  LAN    -  192.168.30.0/24  -  User Workstation Network
 
 ## Default Policy
 WAN       ->  Internal  :  Deny
-Internal  ->  WAN       :  Allow
+Internal  ->  WAN       :  Allow (stateful outbound client access)
 Inter-VLAN              :  Deny
 
 ## Inter-VLAN Rules
-LAN   ->  SERVER  :  Allow
-MGMT  ->  SERVER  :  Allow
-MGMT  ->  LAN     :  Allow
+LAN   ->  SERVER (service access)                 :  Allow
+MGMT  ->  SERVER                                  :  Allow
+MGMT  ->  LAN (administration when required)      :  Allow
 
 ## WAN Exposure Rules
 WAN -> Debian Host (192.168.20.133)
-	- Crafty         :  25500-25600
-	- Prox Chat Mod  :  40000-40000
+	- Crafty         :  TCP 25500-25600
+	- Prox Chat Mod  :  UDP 40000
 
 ## Infrastructure Service Rules
-Router        -  192.168.10.1  -  MGMT  -  TCP 80, 443
-Smart Switch  -  192.168.10.2  -  MGMT  -  TCP 80, 443
-Access Point  -  192.168.10.3  -  MGMT  -  TCP 80, 443
+Network Infrastructure:
+- Router        -  192.168.10.1  -  MGMT  -  TCP 80, 443
+- Smart Switch  -  192.168.10.2  -  MGMT  -  TCP 80, 443
+- Access Point  -  192.168.10.3  -  MGMT  -  TCP 80, 443
 
-ProxMox Web UI     -  192.168.20.99   -  SERVER, MGMT  -  TCP 8006
-CasaOC Web UI      -  192.168.20.193  -  SERVER, MGMT  -  TCP 50000
-Crafty Controller  -  192.168.20.193  -  SERVER, MGMT  -  TCP 8111
-TrueNAS Web UI     -  192.168.20.133  -  SERVER, MGMT  -  TCP 80, 443
+Web GUI:
+- ProxMox            -  192.168.20.99   -  MGMT, SERVER  -  TCP 8006
+- CasaOS             -  192.168.20.193  -  MGMT, SERVER  -  TCP 50000
+- Crafty Controller  -  192.168.20.193  -  MGMT, SERVER  -  TCP 8111
+- TrueNAS            -  192.168.20.133  -  MGMT, SERVER  -  TCP 80, 443
 
-NAS SMB Share  -  192.168.20.133  -  LAN, SERVER, MGMT  -  TCP 445
+Server Services:
+- NAS SMB Share  -  192.168.20.133  -  LAN, SERVER, MGMT  -  TCP 445
 
 ## Security Controls / Blocks
+MGMT VLAN:
+- Block LAN → MGMT by default
+- Block SERVER → MGMT by default
+- Allow only documented infrastructure management services
 
+Server VLAN:
+- Block SERVER → MGMT by default
+- Allow only required infrastructure dependencies (DNS, NTP, monitoring)
 
-## Notes / Future Improvements
+LAN VLAN:
+- Block LAN → MGMT by default
+- Allow LAN → SERVER for documented services
 
-
+Service Exposure Controls:
+- Limit Web UI exposure to MGMT VLAN where possible
+- Limit SMB exposure to NAS host only
+- Avoid broad service exposure across VLANs
